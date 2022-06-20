@@ -1,8 +1,9 @@
 import numpy as np
 
 class Modem:
-    def __init__(self, fs):
-        self.fs = fs   # taxa de amostragem
+    def __init__(self, fs, bufsz):
+        self.fs = fs  # taxa de amostragem
+        self.bufsz = bufsz  # quantidade de amostas que devem ser moduladas por vez
 
     # Modulação
     
@@ -10,7 +11,7 @@ class Modem:
         pass
     
     def get_samples(self):
-        return np.zeros(160)
+        return np.zeros(self.bufsz)
 
     # Demodulação
 

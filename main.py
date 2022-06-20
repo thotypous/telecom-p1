@@ -7,7 +7,7 @@ def main():
 
     fs = 48000
     bufsz = fs//300
-    modem = Modem(fs)
+    modem = Modem(fs, bufsz)
     with default_mic.recorder(samplerate=fs,blocksize=2*bufsz) as mic, \
             default_speaker.player(samplerate=fs,blocksize=2*bufsz) as sp:
         while True:
