@@ -58,7 +58,7 @@ class UartEmu:
             elif self.fsm_state == 'inside':
                 self.fsm_num += 1
                 self.fsm_value >>= 1
-                self.fsm_value |= (b << 7)
+                self.fsm_value |= 0x80 if b else 0x00
                 if self.fsm_num == 8:
                     sys.stdout.write(chr(self.fsm_value))
                     sys.stdout.flush()
