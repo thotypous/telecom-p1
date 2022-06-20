@@ -15,7 +15,7 @@ class Modem:
 
     # Demodulação
 
-    def put_samples(self, _data):
+    def put_samples(self, data):
         pass
 
     def get_bits(self):
