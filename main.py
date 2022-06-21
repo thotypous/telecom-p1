@@ -1,4 +1,5 @@
 import soundcard as sc
+import numpy as np
 import curses
 import sys
 from modem import Modem
@@ -26,7 +27,7 @@ def main(ans=False):
             data = mic.record(numframes=bufsz)
             if data.shape[1] > 1:
                 data = data[:, 0]   # escolha um canal se for stereo
-            modem.put_samples(data)
+            modem.put_samples(np.squeeze(data))
             uart.put_bits(modem.get_bits())
 
 
