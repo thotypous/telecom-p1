@@ -4,20 +4,23 @@ import sys
 from modem import Modem
 
 
-def main():
+def main(ans=False):
     default_mic = sc.default_microphone()
     default_speaker = sc.default_speaker()
 
     fs = 48000
     bufsz = fs//300
     uart = UartEmu()
-    modem = Modem(fs, bufsz)
+    modem = Modem(fs, bufsz, ans)
     with default_mic.recorder(samplerate=fs, blocksize=2*bufsz) as mic, \
-            default_speaker.player(samplerate=fs, blocksize=2*bufsz) as sp:
+            default_speaker.player(samplerate=fs, blocksize=2*bufsz) as sp, \
+            open('output.raw', 'wb') as f:
         while True:
             # Modulação
             modem.put_bits(uart.get_bits())
-            sp.play(modem.get_samples())
+            samples = modem.get_samples()
+            f.write(samples.astype('float32').tobytes())
+            sp.play(samples)
 
             # Demodulação
             data = mic.record(numframes=bufsz)
@@ -78,5 +81,21 @@ class UartEmu:
             yield c
 
 
+def usage():
+    print(f'{sys.argv[0]} [call|ans]', file=sys.stderr)
+    sys.exit(1)
+
+
 if __name__ == "__main__":
-    main()
+    ans = False
+    if len(sys.argv) == 2:
+        if sys.argv[1] == 'call':
+            ans = False
+        elif sys.argv[1] == 'ans':
+            ans = True
+        else:
+            usage()
+    elif len(sys.argv) > 2:
+        usage()
+
+    main(ans)
