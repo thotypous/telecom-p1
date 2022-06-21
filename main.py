@@ -14,13 +14,11 @@ def main(ans=False):
     uart = UartEmu()
     modem = Modem(fs, bufsz, ans)
     with default_mic.recorder(samplerate=fs, blocksize=2*bufsz) as mic, \
-            default_speaker.player(samplerate=fs, blocksize=2*bufsz) as sp, \
-            open('output.raw', 'wb') as f:
+            default_speaker.player(samplerate=fs, blocksize=2*bufsz) as sp:
         while True:
             # Modulação
             modem.put_bits(uart.get_bits())
             samples = modem.get_samples()
-            f.write(samples.astype('float32').tobytes())
             sp.play(samples)
 
             # Demodulação
