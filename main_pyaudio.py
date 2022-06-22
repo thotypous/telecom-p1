@@ -13,7 +13,7 @@ def main(ans=False):
     uart = UartEmu()
     modem = Modem(fs, bufsz, ans)
     
-    stream = p.open(format=pyaudio.paFloat32, channels=1,rate=fs, input=True,output=True,frames_per_buffer=2*bufsz)
+    stream = p.open(format=pyaudio.paFloat32, channels=1,rate=fs, input=True,output=True,frames_per_buffer=bufsz)
     if stream :
         stream.start_stream()
         while True:
@@ -23,7 +23,7 @@ def main(ans=False):
             stream.write(np.array(samples,dtype=np.float32).tobytes(), bufsz)
 
             # Demodulação
-            data = np.frombuffer(stream.read(bufsz), dtype=np.float32)
+            data = np.frombuffer(stream.read(bufsz, exception_on_overflow = False), dtype=np.float32)
             modem.put_samples(np.squeeze(data))
             uart.put_bits(modem.get_bits())
 
