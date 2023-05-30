@@ -5,5 +5,6 @@ constexpr int SAMPLING_RATE = 48000;
 constexpr int BAUD_RATE = 300;
 
 constexpr int SAMPLES_PER_SYMBOL = SAMPLING_RATE / BAUD_RATE;
+constexpr float SAMPLING_PERIOD = 1. / SAMPLING_RATE;
 
 #endif
