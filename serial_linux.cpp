@@ -4,6 +4,7 @@
 #include <pty.h>
 #include <unistd.h>
 #include <termios.h>
+#include <errno.h>
 #include "serial.hpp"
 
 Serial::Serial(const char *options, std::function<void(uint8_t)> rx)
@@ -50,7 +51,10 @@ void Serial::event_loop()
         uint8_t byte;
         int res = read(pty, &byte, 1);
         if (res < 0) {
-            perror("read");
+            // ignora o EIO que acontece enquanto a outra ponta não conecta à pty
+            if (errno != EIO) {
+                perror("read");
+            }
             usleep(100000);
         }
         else if (res == 1) {
