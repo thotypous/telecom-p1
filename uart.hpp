@@ -4,6 +4,7 @@
 #include <functional>
 #include <vector>
 #include <deque>
+#include <mutex>
 #include <stdint.h>
 #include "config.hpp"
 
@@ -23,6 +24,7 @@ public:
     void get_samples(std::vector<unsigned int> &buffer);
 private:
     std::deque<unsigned int> samples;
+    std::mutex samples_mutex;
     void put_bit(unsigned int bit);
 };
 
