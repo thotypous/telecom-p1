@@ -4,7 +4,7 @@ project(Modem VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(Modem main.cpp)
+add_executable(Modem main.cpp uart.cpp)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(RtAudio REQUIRED IMPORTED_TARGET rtaudio)
