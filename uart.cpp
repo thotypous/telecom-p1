@@ -1,8 +1,13 @@
 #include "uart.hpp"
 #include "config.hpp"
 
+void UART_RX::put_samples(std::vector<unsigned int> &buffer)
+{
+    // seu código aqui
+}
 
-void UART_TX::put_byte(unsigned int byte) {
+void UART_TX::put_byte(unsigned int byte)
+{
     put_bit(0);  // start bit
     for (int i = 0; i < 8; i++) {
         put_bit(byte & 1);
@@ -11,7 +16,8 @@ void UART_TX::put_byte(unsigned int byte) {
     put_bit(1);  // stop bit
 }
 
-void UART_TX::get_samples(std::vector<unsigned int> &buffer) {
+void UART_TX::get_samples(std::vector<unsigned int> &buffer)
+{
     std::vector<unsigned int>::size_type i = 0;
     while (!samples.empty() && i < buffer.size()) {
         buffer[i++] = samples.front();
