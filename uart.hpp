@@ -1,25 +1,25 @@
 #ifndef UART_HPP
 #define UART_HPP
 
+#include <functional>
 #include <vector>
 #include <deque>
+#include <stdint.h>
 #include "config.hpp"
-
-typedef void (*UartRxCallback)(unsigned int byte);
 
 class UART_RX
 {
 public:
-    UART_RX(UartRxCallback get_byte) :get_byte(get_byte) {}
+    UART_RX(std::function<void(uint8_t)> get_byte) :get_byte(get_byte) {}
     void put_samples(std::vector<unsigned int> &buffer);
 private:
-    UartRxCallback get_byte;
+    std::function<void(uint8_t)> get_byte;
 };
 
 class UART_TX
 {
 public:
-    void put_byte(unsigned int byte);
+    void put_byte(uint8_t byte);
     void get_samples(std::vector<unsigned int> &buffer);
 private:
     std::deque<unsigned int> samples;

@@ -6,7 +6,7 @@ void UART_RX::put_samples(std::vector<unsigned int> &buffer)
     // seu código aqui
 }
 
-void UART_TX::put_byte(unsigned int byte)
+void UART_TX::put_byte(uint8_t byte)
 {
     put_bit(0);  // start bit
     for (int i = 0; i < 8; i++) {
