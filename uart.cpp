@@ -11,16 +11,15 @@ void UART_TX::put_byte(unsigned int byte) {
     put_bit(1);  // stop bit
 }
 
-void UART_TX::get_samples(unsigned int *buffer, unsigned int nsamples) {
-    while (!samples.empty() && nsamples > 0) {
-        *buffer++ = samples.front();
+void UART_TX::get_samples(std::vector<unsigned int> &buffer) {
+    std::vector<unsigned int>::size_type i = 0;
+    while (!samples.empty() && i < buffer.size()) {
+        buffer[i++] = samples.front();
         samples.pop_front();
-        --nsamples;
     }
-    while (nsamples > 0) {
+    while (i < buffer.size()) {
         // idle
-        *buffer++ = 1;
-        --nsamples;
+        buffer[i++] = 1;
     }
 }
 
