@@ -96,7 +96,7 @@ int main(int argc, char **argv)
 
     UART_TX uart_tx;
     Serial serial(serial_opts, [&uart_tx](uint8_t b){ uart_tx.put_byte(b); });
-    UART_RX uart_rx([&serial](uint8_t b){ serial.tx(b); });
+    UART_RX uart_rx([&serial](uint8_t b){ serial.write(b); });
     V21_RX v21_rx(rx_omega1, rx_omega0);
     V21_TX v21_tx(tx_omega1, tx_omega0);
 

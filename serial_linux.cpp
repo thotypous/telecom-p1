@@ -8,7 +8,7 @@
 #include "serial.hpp"
 
 Serial::Serial(const char *options, std::function<void(uint8_t)> rx)
-    :rx(rx)
+    :read(rx)
 {
     (void)options;  // não usado na versão Linux
 
@@ -40,16 +40,16 @@ Serial::Serial(const char *options, std::function<void(uint8_t)> rx)
     std::cerr << "criado porto serial em " << pty_name << std::endl;
 }
 
-void Serial::tx(uint8_t byte)
+void Serial::write(uint8_t byte)
 {
-    write(pty, &byte, 1);
+    ::write(pty, &byte, 1);
 }
 
 void Serial::event_loop()
 {
     while (true) {
         uint8_t byte;
-        int res = read(pty, &byte, 1);
+        int res = ::read(pty, &byte, 1);
         if (res < 0) {
             // ignora o EIO que acontece enquanto a outra ponta não conecta à pty
             if (errno != EIO) {
@@ -58,7 +58,7 @@ void Serial::event_loop()
             usleep(100000);
         }
         else if (res == 1) {
-            rx(byte);
+            this->read(byte);
         }
     }
 }
