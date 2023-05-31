@@ -1,7 +1,6 @@
 #include "uart.hpp"
-#include "config.hpp"
 
-void UART_RX::put_samples(std::vector<unsigned int> &buffer)
+void UART_RX::put_samples(unsigned int *buffer, unsigned int n)
 {
     // seu código aqui
 }
@@ -18,17 +17,17 @@ void UART_TX::put_byte(uint8_t byte)
     samples_mutex.unlock();
 }
 
-void UART_TX::get_samples(std::vector<unsigned int> &buffer)
+void UART_TX::get_samples(unsigned int *buffer, unsigned int n)
 {
     samples_mutex.lock();
     std::vector<unsigned int>::size_type i = 0;
-    while (!samples.empty() && i < buffer.size()) {
+    while (!samples.empty() && i < n) {
         buffer[i++] = samples.front();
         samples.pop_front();
     }
     samples_mutex.unlock();
 
-    while (i < buffer.size()) {
+    while (i < n) {
         // idle
         buffer[i++] = 1;
     }
