@@ -23,3 +23,8 @@ endif()
 add_executable(Modem main.cpp uart.cpp v21.cpp ${SERIAL_IMPL})
 
 target_link_libraries(Modem PkgConfig::RtAudio Threads::Threads)
+
+option(MODEM_GRADER "Modem tests (grader)" OFF)
+if(MODEM_GRADER)
+    add_subdirectory(grader)
+endif()
