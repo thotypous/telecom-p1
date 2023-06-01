@@ -1,9 +1,4 @@
-#include <errhandlingapi.h>
-#include <fileapi.h>
-#include <handleapi.h>
-#include <ioapiset.h>
 #include <iostream>
-#include <winerror.h>
 #include "serial.hpp"
 
 // http://msdn.microsoft.com/en-us/library/ff802693.aspx
@@ -13,7 +8,7 @@ Serial::Serial(const char *options, std::function<void(uint8_t)> read)
 {
     if (options == NULL) {
         // o par de portas pre-configurado do com0com é COM3/COM4
-        options = "COM3";
+        options = "\\\\.\\COM3";
     }
 
     hComm = CreateFile(options,
@@ -28,24 +23,46 @@ Serial::Serial(const char *options, std::function<void(uint8_t)> read)
         exit(1);
     }
 
-    DCB dcbSerialParams = { 0 };
-    if (!GetCommState(hComm, &dcbSerialParams)) {
+    DCB dcb = { 0 };
+    if (!GetCommState(hComm, &dcb)) {
         std::cerr << "serial: error on GetCommState: " << GetLastError() << std::endl;
         exit(1);
     }
 
-    dcbSerialParams.BaudRate = 115200;
-    dcbSerialParams.ByteSize = 8;
-    dcbSerialParams.StopBits = ONESTOPBIT;
-    dcbSerialParams.Parity = NOPARITY;
-    dcbSerialParams.fDtrControl = DTR_CONTROL_DISABLE;
+    dcb.BaudRate = 115200;
+    dcb.ByteSize = 8;
+    dcb.StopBits = ONESTOPBIT;
+    dcb.Parity = NOPARITY;
+    dcb.fBinary = TRUE;
+    dcb.fDtrControl = DTR_CONTROL_ENABLE;
+    dcb.fRtsControl = RTS_CONTROL_ENABLE;
+    dcb.fDsrSensitivity = FALSE;
+    dcb.fTXContinueOnXoff = FALSE;
+    dcb.fOutX = FALSE;
+    dcb.fInX = FALSE;
+    dcb.fErrorChar = FALSE;
+    dcb.fNull = FALSE;
+    dcb.fAbortOnError = FALSE;
+    dcb.fOutxCtsFlow = FALSE;
+    dcb.fOutxDsrFlow = FALSE;
 
-    if (!SetCommState(hComm, &dcbSerialParams)) {
+    if (!SetCommState(hComm, &dcb)) {
         std::cerr << "serial: error on SetCommState: " << GetLastError() << std::endl;
         exit(1);
     }
 
-    PurgeComm(hComm, PURGE_RXCLEAR | PURGE_TXCLEAR);
+    COMMTIMEOUTS timeouts;
+
+    timeouts.ReadIntervalTimeout = 1;
+    timeouts.ReadTotalTimeoutMultiplier = 0;
+    timeouts.ReadTotalTimeoutConstant = 0;
+    timeouts.WriteTotalTimeoutMultiplier = 0;
+    timeouts.WriteTotalTimeoutConstant = 0;
+
+    if (!SetCommTimeouts(hComm, &timeouts)) {
+        std::cerr << "serial: error on SetCommTimeouts: " << GetLastError() << std::endl;
+        exit(1);
+    }
 }
 
 void Serial::write(uint8_t byte)
