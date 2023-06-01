@@ -12,7 +12,7 @@
 
 void usage(const char *prog)
 {
-    std::cerr << prog << " [-s serial_opts] [-l] [-r record_dev] [-p playback_dev] call|ans" << std::endl;
+    std::cerr << prog << " [-s serial_opts] [-l] [-i input_dev] [-o output_dev] call|ans" << std::endl;
 }
 
 int rtaudio_callback(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData)
