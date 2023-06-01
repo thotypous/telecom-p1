@@ -16,5 +16,4 @@ void V21_TX::modulate(const unsigned int *in_digital_samples, float *out_analog_
         // evita que phase cresça indefinidamente, o que causaria perda de precisão
         phase = remainder(phase, 2*std::numbers::pi);
     }
-
 }
