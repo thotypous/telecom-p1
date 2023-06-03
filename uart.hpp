@@ -11,7 +11,7 @@ class UART_RX
 {
 public:
     UART_RX(std::function<void(uint8_t)> get_byte) :get_byte(get_byte) {}
-    void put_samples(unsigned int *buffer, unsigned int n);
+    void put_samples(const unsigned int *buffer, unsigned int n);
 private:
     std::function<void(uint8_t)> get_byte;
 };

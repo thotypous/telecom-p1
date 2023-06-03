@@ -1,6 +1,6 @@
 #include "uart.hpp"
 
-void UART_RX::put_samples(unsigned int *buffer, unsigned int n)
+void UART_RX::put_samples(const unsigned int *buffer, unsigned int n)
 {
     // seu código aqui
 }
