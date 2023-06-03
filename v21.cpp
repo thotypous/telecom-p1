@@ -2,9 +2,16 @@
 #include <numbers>
 #include "v21.hpp"
 
-void V21_RX::demodulate(const float *in_analog_samples, unsigned int *out_digital_samples, unsigned int n)
+void V21_RX::demodulate(const float *in_analog_samples, unsigned int n)
 {
+    unsigned int digital_samples[n];
+    for (int i = 0; i < n; i++) {
+        digital_samples[i] = 1;
+    }
+
     // seu código aqui
+
+    get_digital_samples(digital_samples, n);
 }
 
 void V21_TX::modulate(const unsigned int *in_digital_samples, float *out_analog_samples, unsigned int n)

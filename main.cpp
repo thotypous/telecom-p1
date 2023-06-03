@@ -97,7 +97,7 @@ int main(int argc, char **argv)
     UART_TX uart_tx;
     Serial serial(serial_opts, [&uart_tx](uint8_t b){ uart_tx.put_byte(b); });
     UART_RX uart_rx([&serial](uint8_t b){ serial.write(b); });
-    V21_RX v21_rx(rx_omega1, rx_omega0);
+    V21_RX v21_rx(rx_omega1, rx_omega0, [&uart_rx](const unsigned int *s, unsigned int n){ uart_rx.put_samples(s, n); });
     V21_TX v21_tx(tx_omega1, tx_omega0);
 
     RtAudio::StreamParameters in_params = {
@@ -124,12 +124,10 @@ int main(int argc, char **argv)
         }
 
         unsigned int digital_buffer[nBufferFrames];
-        
         uart_tx.get_samples(digital_buffer, nBufferFrames);
         v21_tx.modulate(digital_buffer, (float *)outputBuffer, nBufferFrames);
 
-        v21_rx.demodulate((const float *)inputBuffer, digital_buffer, nBufferFrames);
-        uart_rx.put_samples(digital_buffer, nBufferFrames);
+        v21_rx.demodulate((const float *)inputBuffer, nBufferFrames);
 
         return 0;
     };
