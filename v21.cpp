@@ -5,11 +5,12 @@
 void V21_RX::demodulate(const float *in_analog_samples, unsigned int n)
 {
     unsigned int digital_samples[n];
+
+    // substitua o loop abaixo, que gera um sinal UART constantemente ocioso,
+    // pelo seu código
     for (int i = 0; i < n; i++) {
         digital_samples[i] = 1;
     }
-
-    // seu código aqui
 
     get_digital_samples(digital_samples, n);
 }
