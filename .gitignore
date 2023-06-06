@@ -1,4 +1,5 @@
 /.cache
+/artifacts
 /build
 /build-win
 /compile_commands.json
