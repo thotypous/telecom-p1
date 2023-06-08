@@ -45,7 +45,7 @@ Sempre que você tiver demodulado uma quantidade conveniente de amostras binári
 
 Minha sugestão é implementar um demodulador que não se importa com a sincronia entre relógios, ou seja, que deixa isso a cargo da UART. Para isso, você pode chamar `get_digital_samples` uma única vez ao final do método `V21_RX::demodulate`, passando um buffer do mesmo tamanho de `in_analog_samples`. Essa parte já vem inclusive pronta no esqueleto de código fornecido a vocês.
 
-Faça dois filtros passa-bandas, um para o tom de marca, outro para o tom de espaço. Subtraia a saída de um dos filtros passa-bandas da saída do outro, e filtre essa diferença com um passa-baixas. Quando a diferença filtrada indicar uma potência maior na frequência de marca, insira um 0 no buffer de saída. Caso contrário, insira um 1.
+Faça dois filtros passa-bandas, um para o tom de marca, outro para o tom de espaço. Subtraia a saída de um dos filtros passa-bandas da saída do outro, e filtre essa diferença com um passa-baixas. Quando a diferença filtrada indicar uma potência maior na frequência de espaço, insira um 0 no buffer de saída. Caso contrário, insira um 1.
 
 Implemente uma estratégia para detectar a ausência de uma portadora (ou seja, quando não existe nem tom de marca nem tom de espaço). Enquanto não houver portadora, insira sempre 1 no buffer de saída.
 
