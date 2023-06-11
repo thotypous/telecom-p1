@@ -69,6 +69,8 @@ Para conseguir os 2 pontos restantes, seu grupo deve submeter a implementação 
 
 Para isso, é necessário saber como **usar** o modem, e não só como executar os testes automatizados.
 
+Como cada ponta do enlace usa um par de frequências diferente para transmitir, a convenção é escolher esse par de frequências de acordo com o papel da ponta na chamada telefônica. Se foi quem discou (em inglês, *caller*), utiliza-se um par de frequências; se foi quem recebeu a chamada (em inglês, *answerer*), utiliza-se o outro. Por isso, será necessário passar essa informação ao modem.
+
 #### Linux
 
 Em um terminal, execute:
@@ -115,3 +117,40 @@ Abra um Prompt do MS-DOS ou um terminal do PowerShell e execute `Modem call` ou 
 Utilize o Putty para conectar-se à COM4 se quiser trocar mensagens de texto diretamente com a outra ponta.
 
 Utilize o discador do Windows se quiser subir uma interface de rede. Infelizmente, o Windows 7 parece ter sido a última versão do Windows a suportar SLIP. Mas você pode tentar usar PPP.
+
+
+### Modem comercialmente disponível
+
+Os modems comercialmente disponíveis também apresentam-se ao usuário como dispositivos seriais mas, como eles suportam uma diversidade de protocolos e modos de operação, é necessário operá-los usando comandos AT (também conhecidos como comandos Hayes).
+
+Conecte-se ao dispositivo do modem utilizando o picocom (no Linux), Putty (no Windows) ou outro software que funcione como um terminal serial. No Linux, modems USB costumam ser detectados como `/dev/ttyUSB0` ou `/dev/ttyACM0`.
+
+Se você estiver usando o simulador de linha telefônica (em vez do PABX), use o seguinte comando para que o modem ignore a ausência de um tom de discagem:
+
+```
+ATX3
+```
+
+Use o seguinte comando para colocar o modem em modo V.21:
+
+```
+AT+MS=V21,0
+```
+
+Para estabelecer a conexão, caso você esteja na ponta que efetua a chamada, use o comando:
+
+```
+ATDT1
+```
+
+Acima, `1` é um número de telefone, que será chamado usando tons [DTMF](https://en.wikipedia.org/wiki/Dual-tone_multi-frequency_signaling). Perceba que o modem que nós implementamos não possui essa funcionalidade de chamar um número — ele assume que a chamada telefônica já está estabelecida no momento que ele começa a operar.
+
+Caso você esteja na ponta que recebe a chamada, use o comando:
+
+```
+ATA
+```
+
+A partir daí, você pode trocar mensagens de texto diretamente com a outra ponta.
+
+Se estiver no picocom e quiser subir uma interface SLIP, use as teclas Ctrl+A seguidas de Ctrl+Q para sair do picocom sem desligar a chamada (sem "colocar o telefone no gancho"). Em seguida, utilize o comando `slattach`, passando o dispositivo serial do modem.
