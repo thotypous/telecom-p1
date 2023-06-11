@@ -119,7 +119,7 @@ Utilize o Putty para conectar-se à COM4 se quiser trocar mensagens de texto dir
 Utilize o discador do Windows se quiser subir uma interface de rede. Infelizmente, o Windows 7 parece ter sido a última versão do Windows a suportar SLIP. Mas você pode tentar usar PPP.
 
 
-### Modem comercialmente disponível
+#### Modem comercialmente disponível
 
 Os modems comercialmente disponíveis também apresentam-se ao usuário como dispositivos seriais mas, como eles suportam uma diversidade de protocolos e modos de operação, é necessário operá-los usando comandos AT (também conhecidos como comandos Hayes).
 
