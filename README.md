@@ -121,7 +121,7 @@ Utilize o discador do Windows se quiser subir uma interface de rede. Infelizment
 
 #### Modem comercialmente disponível
 
-Os modems comercialmente disponíveis também apresentam-se ao usuário como dispositivos seriais mas, como eles suportam uma diversidade de protocolos e modos de operação, é necessário operá-los usando comandos AT (também conhecidos como comandos Hayes).
+Os modems comercialmente disponíveis também apresentam-se ao usuário como dispositivos seriais mas, como eles suportam uma diversidade de protocolos e modos de operação, é necessário operá-los usando [comandos AT](https://www.thinkpenguin.com/files/CX930xx-manual.pdf) (também conhecidos como comandos Hayes).
 
 Conecte-se ao dispositivo do modem utilizando o picocom (no Linux), Putty (no Windows) ou outro software que funcione como um terminal serial. No Linux, modems USB costumam ser detectados como `/dev/ttyUSB0` ou `/dev/ttyACM0`.
 
