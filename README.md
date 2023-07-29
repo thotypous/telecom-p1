@@ -11,7 +11,7 @@ Se quiser compilar localmente, você precisa essencialmente das bibliotecas gtes
 
 ```bash
 sudo pacman -S cmake rtaudio gtest python-matplotlib  # no Arch
-sudo apt-get install cmake librtaudio-dev libgtest-dev python3-matplotlib  # no Ubuntu
+sudo apt-get install cmake librtaudio-dev libgtest-dev libgmock-dev python3-matplotlib  # no Ubuntu
 ./run-grader
 ```
 
