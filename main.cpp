@@ -24,6 +24,7 @@ int rtaudio_callback(void *outputBuffer, void *inputBuffer, unsigned int nBuffer
 int main(int argc, char **argv)
 {
     RtAudio dev;
+    std::vector<unsigned int> ids = dev.getDeviceIds();
 
     int audio_in_dev = -1;
     int audio_out_dev = -1;
@@ -37,8 +38,8 @@ int main(int argc, char **argv)
             break;
         case 'l':
             for (unsigned int i = 0; i < dev.getDeviceCount(); i++) {
-                auto info = dev.getDeviceInfo(i);
-                std::cout << i << " " << info.name;
+                auto info = dev.getDeviceInfo(ids[i]);
+                std::cout << ids[i] << " " << info.name;
                 if (info.isDefaultInput) {
                     std::cout << " (default in)";
                 }
@@ -67,12 +68,12 @@ int main(int argc, char **argv)
     }
 
     for (unsigned int i = 0; i < dev.getDeviceCount(); i++) {
-        auto info = dev.getDeviceInfo(i);
+        auto info = dev.getDeviceInfo(ids[i]);
         if (audio_in_dev < 0 && info.isDefaultInput) {
-            audio_in_dev = (int)i;
+            audio_in_dev = (int)ids[i];
         }
         if (audio_out_dev < 0 && info.isDefaultOutput) {
-            audio_out_dev = (int)i;
+            audio_out_dev = (int)ids[i];
         }
     }
 

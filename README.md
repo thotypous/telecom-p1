@@ -15,7 +15,7 @@ sudo apt-get install cmake librtaudio-dev libgtest-dev libgmock-dev python3-matp
 ./run-grader
 ```
 
-O código foi testado com o rtaudio versão 5.2.0. A API do rtaudio é um pouco instável, então talvez não compile com outras versões.
+O código foi testado com o rtaudio versão 6.0.1. A API do rtaudio é um pouco instável, então talvez não compile com outras versões.
 
 Como IDE, recomendo usar o VSCode com CMake Tools ou o neovim com clangd.
 
