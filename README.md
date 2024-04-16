@@ -12,13 +12,30 @@ Se quiser compilar localmente, você precisa essencialmente das bibliotecas gtes
 ```bash
 sudo pacman -S cmake rtaudio gtest python-matplotlib  # no Arch
 sudo apt-get install cmake librtaudio-dev libgtest-dev libgmock-dev python3-matplotlib  # no Ubuntu
-./run-grader
 ```
 
 O código foi testado com o rtaudio versão 6.0.1. A API do rtaudio é um pouco instável, então talvez não compile com outras versões.
 
+Até o Ubuntu 24.04, o rtaudio ainda não havia sido atualizado para a versão 6.0.1. Por isso, é necessário instalar o rtaudio manualmente. O passo a seguir **não** é necessário no Arch:
+
+```bash
+# somente no Ubuntu <= 24.04
+cd
+git clone https://github.com/thestk/rtaudio.git
+cd rtaudio
+git checkout -b stable 6.0.1
+mkdir build && cd build
+cmake ..
+make install
+```
+
 Como IDE, recomendo usar o VSCode com CMake Tools ou o neovim com clangd.
 
+Para testar seu código, execute:
+
+```bash
+./run-grader
+```
 
 ## Passo-a-passo da implementação
 
